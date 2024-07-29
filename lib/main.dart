@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:pixel_app/bloc/address_bloc/bloc/address_bloc.dart';
 import 'package:pixel_app/bloc/autofile_bloc/bloc/auto_fill_bloc.dart';
 import 'package:pixel_app/bloc/bloc/validation_bloc.dart';
 import 'package:pixel_app/view/screens/pan_card_adding.dart';
 
-void main() {
+void main()async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Hive
+  await Hive.initFlutter();
   runApp(const MyApp());
 }
 

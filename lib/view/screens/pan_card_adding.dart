@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_app/bloc/address_bloc/bloc/address_bloc.dart';
 import 'package:pixel_app/bloc/autofile_bloc/bloc/auto_fill_bloc.dart';
+import 'package:pixel_app/data/model/address_model.dart';
 import 'package:pixel_app/view/utils/color_theme/colors.dart';
 import 'package:pixel_app/view/utils/constants/app_button.dart';
 import 'package:pixel_app/view/utils/constants/app_text.dart';
@@ -18,6 +19,7 @@ import 'package:pixel_app/view/utils/constants/sizedbox.dart';
 import 'package:pixel_app/view/widgets/pancard_field.dart';
 
 final GlobalKey<FormState> registerKey = GlobalKey<FormState>();
+final List<AddressModel> addressList = [];
 
 class PanCardAddingScreen extends StatelessWidget {
   const PanCardAddingScreen({super.key});
@@ -120,57 +122,6 @@ class PanCardAddingScreen extends StatelessWidget {
                 ),
                 const Divider(color: AppColors.dividerColor),
                 const CustomSizedBoxHeight(height: 0.01),
-                // BlocBuilder<AddressBloc, AddressState>(
-                //   builder: (context, state) {
-                //     return Column(
-                //       children: [
-                //         ElevatedButton(
-                //           onPressed: () {
-                //             context.read<AddressBloc>().add(AddMoreClicked());
-                //           },
-                //           child: Text('Add Address'),
-                //         ),
-                //         ListView.builder(
-                //           shrinkWrap: true,
-                //           itemCount: state.itemCount,
-                //           itemBuilder: (context, index) {
-                //             return Column(
-                //               children: [
-                //                 Inputfield(
-                //                   controller: state.addressControllers[index],
-                //                   hinttext: 'Address',
-                //                   validator: (value) {
-                //                     if (value == null || value.isEmpty) {
-                //                       return 'Please enter an address';
-                //                     }
-                //                     return null;
-                //                   },
-                //                 ),
-                //                 const CustomSizedBoxHeight(height: 0.02),
-                //                 Inputfield(
-                //                   controller: state.postcodeControllers[index],
-                //                   textInputFormatter: [
-                //                     LengthLimitingTextInputFormatter(10)
-                //                   ],
-                //                   hinttext: 'PostCode',
-                //                   validator: (value) {
-                //                     if (value == null || value.isEmpty) {
-                //                       return 'Please enter a postcode';
-                //                     }
-                //                     return null;
-                //                   },
-                //                 ),
-                //                 const CustomSizedBoxHeight(height: 0.02),
-                //                 // Other UI elements for State and City, etc.
-                //               ],
-                //             );
-                //           },
-                //         ),
-                //       ],
-                //     );
-                //   },
-                // ),
-
                 BlocBuilder<AddressBloc, AddressState>(
                   builder: (context, state) {
                     return ListView.builder(
@@ -248,7 +199,7 @@ class PanCardAddingScreen extends StatelessWidget {
                                       text:
                                           BlocProvider.of<AutoFillBloc>(context)
                                                   .state
-                                                  .city
+                                                  .state
                                                   .isEmpty
                                               ? 'State'
                                               : BlocProvider.of<AutoFillBloc>(
@@ -262,9 +213,34 @@ class PanCardAddingScreen extends StatelessWidget {
                               ),
                             ]),
                             const CustomSizedBoxHeight(height: 0.01),
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Icon(Icons.done)],
+                              children: [
+                                GestureDetector(
+                                    onTap: () {
+                                      if (state.addressControllers[index].text
+                                              .isNotEmpty &&
+                                          state.postcodeControllers[index].text
+                                              .isNotEmpty) {
+                                        addressList.add(AddressModel(
+                                            address: state
+                                                .addressControllers[index].text,
+                                            postCode: state
+                                                .postcodeControllers[index]
+                                                .text,
+                                            state:
+                                                BlocProvider.of<AutoFillBloc>(
+                                                        context)
+                                                    .state
+                                                    .state,
+                                            city: BlocProvider.of<AutoFillBloc>(
+                                                    context)
+                                                .state
+                                                .city));
+                                      }
+                                    },
+                                    child: Icon(Icons.done))
+                              ],
                             ),
                           ],
                         );

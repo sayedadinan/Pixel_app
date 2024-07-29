@@ -20,7 +20,8 @@ class AddressState {
     List<TextEditingController>? addressControllers,
     List<TextEditingController>? postcodeControllers,
   }) {
-    return AddressState(city: city,
+    return AddressState(
+      city: city,
       state: state,
       itemCount: itemCount ?? this.itemCount,
       addressControllers: addressControllers ?? this.addressControllers,
@@ -31,7 +32,8 @@ class AddressState {
 
 class AddressInitial extends AddressState {
   AddressInitial()
-      : super(state: '',
+      : super(
+          state: '',
           itemCount: 1,
           addressControllers: [TextEditingController()],
           postcodeControllers: [TextEditingController()],

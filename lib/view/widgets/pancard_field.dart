@@ -1,12 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pixel_app/bloc/bloc/validation_bloc.dart';
+import 'package:pixel_app/bloc/user_bloc/validation_bloc.dart';
 import 'package:pixel_app/view/utils/color_theme/colors.dart';
 import 'package:pixel_app/view/utils/constants/app_textfield.dart';
 
 class PanInputBox extends StatelessWidget {
+  final TextEditingController controller;
   const PanInputBox({
+    required this.controller,
+
     super.key,
   });
 
@@ -15,6 +17,7 @@ class PanInputBox extends StatelessWidget {
     return BlocBuilder<ValidationBloc, ValidationState>(
       builder: (context, state) {
         return Inputfield(
+          controller: controller,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter a Pan Number';

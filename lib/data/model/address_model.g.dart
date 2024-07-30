@@ -1,47 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'data_model.dart';
+part of 'address_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PanDatasAdapter extends TypeAdapter<PanDatas> {
+class AddressTableAdapter extends TypeAdapter<AddressTable> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  PanDatas read(BinaryReader reader) {
+  AddressTable read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PanDatas(
-      name: fields[1] as String,
-      email: fields[2] as String,
-      dataId: fields[0] as String,
-      mobileNumber: fields[3] as String,
-      panCardNumber: fields[4] as String,
-      addressModelList: (fields[5] as List).cast<AddressTable>(),
+    return AddressTable(
+      address: fields[0] as String,
+      postCode: fields[1] as dynamic,
+      state: fields[2] as String,
+      city: fields[3] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, PanDatas obj) {
+  void write(BinaryWriter writer, AddressTable obj) {
     writer
-      ..writeByte(6)
-      ..writeByte(0)
-      ..write(obj.dataId)
-      ..writeByte(1)
-      ..write(obj.name)
-      ..writeByte(2)
-      ..write(obj.email)
-      ..writeByte(3)
-      ..write(obj.mobileNumber)
       ..writeByte(4)
-      ..write(obj.panCardNumber)
-      ..writeByte(5)
-      ..write(obj.addressModelList);
+      ..writeByte(0)
+      ..write(obj.address)
+      ..writeByte(1)
+      ..write(obj.postCode)
+      ..writeByte(2)
+      ..write(obj.state)
+      ..writeByte(3)
+      ..write(obj.city);
   }
 
   @override
@@ -50,7 +44,7 @@ class PanDatasAdapter extends TypeAdapter<PanDatas> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PanDatasAdapter &&
+      other is AddressTableAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

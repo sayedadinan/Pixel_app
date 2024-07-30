@@ -1,8 +1,8 @@
 part of 'auto_fill_bloc.dart';
 
 sealed class AutoFillState {
-  final String state;
-  final String city;
+  final List<String> state;
+  final List<String> city;
 
   AutoFillState({required this.state, required this.city});
 }

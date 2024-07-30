@@ -22,13 +22,14 @@ class MusicSongAdapter extends TypeAdapter<MusicSong> {
       dataId: fields[0] as int,
       mobileNumber: fields[3] as String,
       panCardNumber: fields[4] as String,
+      addressModelList: (fields[5] as List).cast<AddressModel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, MusicSong obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.dataId)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class MusicSongAdapter extends TypeAdapter<MusicSong> {
       ..writeByte(3)
       ..write(obj.mobileNumber)
       ..writeByte(4)
-      ..write(obj.panCardNumber);
+      ..write(obj.panCardNumber)
+      ..writeByte(5)
+      ..write(obj.addressModelList);
   }
 
   @override

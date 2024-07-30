@@ -7,7 +7,7 @@ part 'auto_fill_event.dart';
 part 'auto_fill_state.dart';
 
 class AutoFillBloc extends Bloc<AutoFillEvent, AutoFillState> {
-  AutoFillBloc() : super(AutoFillInitial(state: '', city: '')) {
+  AutoFillBloc() : super(AutoFillInitial(state: ['state'], city: ['city'])) {
     on<PostValAdded>(postValAdded);
   }
   postValAdded(PostValAdded event, Emitter<AutoFillState> emit) async {
@@ -16,7 +16,13 @@ class AutoFillBloc extends Bloc<AutoFillEvent, AutoFillState> {
     if (event.val.length == 6) {
       final val = await PostcodeService().getPostcodeDetails(postcode);
       print(val['state']);
-      emit(AutoFillInitial(state: val['state'], city: val['city']));
+      state.city.remove('city');
+      state.state.remove('state');
+      state.state.add(val['state']);
+      state.city.add(val['city']);
+      state.city.add('city');
+      state.state.add('state');
+      emit(AutoFillInitial(state: state.state, city: state.city));
     }
   }
 }

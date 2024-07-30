@@ -1,12 +1,11 @@
 import 'dart:developer';
-
-import 'package:country_phone_validator/country_phone_validator.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_app/bloc/address_bloc/bloc/address_bloc.dart';
 import 'package:pixel_app/bloc/autofile_bloc/bloc/auto_fill_bloc.dart';
+import 'package:pixel_app/bloc/bloc/validation_bloc.dart';
 import 'package:pixel_app/data/model/address_model.dart';
 import 'package:pixel_app/view/utils/color_theme/colors.dart';
 import 'package:pixel_app/view/utils/constants/app_button.dart';
@@ -16,6 +15,9 @@ import 'package:pixel_app/view/utils/constants/mediaquery.dart';
 import 'package:pixel_app/view/utils/constants/padding_.dart';
 import 'package:pixel_app/view/utils/constants/paths.dart';
 import 'package:pixel_app/view/utils/constants/sizedbox.dart';
+import 'package:pixel_app/view/widgets/address_title.dart';
+import 'package:pixel_app/view/widgets/city_display_container.dart';
+import 'package:pixel_app/view/widgets/city_state_container.dart';
 import 'package:pixel_app/view/widgets/pancard_field.dart';
 
 final GlobalKey<FormState> registerKey = GlobalKey<FormState>();
@@ -72,17 +74,19 @@ class PanCardAddingScreen extends StatelessWidget {
                   height: 0.02,
                 ),
                 Inputfield(
-                  hinttext: 'Mobile Number',
-                  textInputFormatter: [LengthLimitingTextInputFormatter(10)],
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a phone number';
-                    } else if (!CountryUtils.validatePhoneNumber(value, '91')) {
-                      return 'Please enter a valid Indian phone number';
-                    }
-                    return null;
-                  },
-                ),
+                    hinttext: 'Mobile Number',
+                    textInputFormatter: [LengthLimitingTextInputFormatter(10)],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a phone number';
+                      } else {
+                        final regex = RegExp(r'^[6-9]\d{9}$');
+                        if (!regex.hasMatch(value)) {
+                          return 'Please enter a valid Indian phone number';
+                        }
+                      }
+                      return null;
+                    }),
                 const CustomSizedBoxHeight(
                   height: 0.02,
                 ),
@@ -90,36 +94,7 @@ class PanCardAddingScreen extends StatelessWidget {
                 const CustomSizedBoxHeight(
                   height: 0.02,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const CustomText(
-                        text: 'Address Here',
-                        fontFamily: CustomFonts.poppings,
-                        size: 0.04,
-                        color: AppColors.blackColor),
-                    GestureDetector(
-                      onTap: () {
-                        context.read<AddressBloc>().add(AddMoreClicked());
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.dividerColor),
-                            color: AppColors.whiteColor,
-                            borderRadius: BorderRadius.circular(12)),
-                        height: mediaqueryheight(0.03, context),
-                        width: mediaquerywidth(0.25, context),
-                        child: const Center(
-                          child: CustomText(
-                              text: 'Add more',
-                              fontFamily: CustomFonts.poppings,
-                              size: 0.04,
-                              color: AppColors.blackColor),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                const AddressTitle(),
                 const Divider(color: AppColors.dividerColor),
                 const CustomSizedBoxHeight(height: 0.01),
                 BlocBuilder<AddressBloc, AddressState>(
@@ -149,68 +124,22 @@ class PanCardAddingScreen extends StatelessWidget {
                                 },
                                 controller: state.postcodeControllers[index],
                                 textInputFormatter: [
-                                  LengthLimitingTextInputFormatter(10)
+                                  LengthLimitingTextInputFormatter(6)
                                 ],
                                 hinttext: 'PostCode',
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'please enter a address';
+                                    return 'please enter a postcode';
+                                  } else if (!isDigit(value)) {
+                                    return 'please enter valuable';
                                   }
                                   return null;
                                 }),
                             const CustomSizedBoxHeight(height: 0.02),
                             Row(children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.dividerColor),
-                                    color: AppColors.whiteColor,
-                                    borderRadius: BorderRadius.circular(12)),
-                                height: mediaqueryheight(0.06, context),
-                                width: mediaquerywidth(0.44, context),
-                                child: Center(
-                                  child: CustomText(
-                                      text:
-                                          BlocProvider.of<AutoFillBloc>(context)
-                                                  .state
-                                                  .state
-                                                  .isEmpty
-                                              ? 'State'
-                                              : BlocProvider.of<AutoFillBloc>(
-                                                      context)
-                                                  .state
-                                                  .state,
-                                      fontFamily: CustomFonts.poppings,
-                                      size: 0.04,
-                                      color: AppColors.blackColor),
-                                ),
-                              ),
+                              PostAutoContainer(index: index),
                               const CustomSizedBoxWidth(0.01),
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.dividerColor),
-                                    color: AppColors.whiteColor,
-                                    borderRadius: BorderRadius.circular(12)),
-                                height: mediaqueryheight(0.06, context),
-                                width: mediaquerywidth(0.44, context),
-                                child: Center(
-                                  child: CustomText(
-                                      text:
-                                          BlocProvider.of<AutoFillBloc>(context)
-                                                  .state
-                                                  .state
-                                                  .isEmpty
-                                              ? 'State'
-                                              : BlocProvider.of<AutoFillBloc>(
-                                                      context)
-                                                  .state
-                                                  .city,
-                                      fontFamily: CustomFonts.poppings,
-                                      size: 0.04,
-                                      color: AppColors.blackColor),
-                                ),
-                              ),
+                              CityDisplayContainer(index: index)
                             ]),
                             const CustomSizedBoxHeight(height: 0.01),
                             Row(
@@ -218,6 +147,10 @@ class PanCardAddingScreen extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                     onTap: () {
+                                      print(
+                                          BlocProvider.of<AutoFillBloc>(context)
+                                              .state
+                                              .city[index]);
                                       if (state.addressControllers[index].text
                                               .isNotEmpty &&
                                           state.postcodeControllers[index].text
@@ -232,11 +165,16 @@ class PanCardAddingScreen extends StatelessWidget {
                                                 BlocProvider.of<AutoFillBloc>(
                                                         context)
                                                     .state
-                                                    .state,
+                                                    .state[index],
                                             city: BlocProvider.of<AutoFillBloc>(
                                                     context)
                                                 .state
-                                                .city));
+                                                .city[index]));
+                                      }
+                                      for (int i = 0;
+                                          i < addressList.length;
+                                          i++) {
+                                        print(addressList[i].address);
                                       }
                                     },
                                     child: Icon(Icons.done))

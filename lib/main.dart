@@ -4,9 +4,9 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pixel_app/bloc/address_bloc/bloc/address_bloc.dart';
 import 'package:pixel_app/bloc/autofile_bloc/bloc/auto_fill_bloc.dart';
-import 'package:pixel_app/bloc/user_bloc/validation_bloc.dart';
+import 'package:pixel_app/bloc/validation_bloc/validation_bloc.dart';
 import 'package:pixel_app/data/model/data_model.dart';
-import 'package:pixel_app/view/screens/pan_card_adding.dart';
+import 'package:pixel_app/view/screens/user_adding_screen.dart';
 import 'package:pixel_app/view/utils/constants/navigations.dart';
 
 import 'bloc/user_bloc/user_bloc.dart';
@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AutoFillBloc()),
         BlocProvider(create: (context) => UserBloc(HiveService())),
       ],
-      // Initialize your Bloc here
       child: MaterialApp(
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,

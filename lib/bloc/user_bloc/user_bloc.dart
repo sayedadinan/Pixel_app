@@ -16,8 +16,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserAddEvent>(_add);
 
     on<UserDeleteEvent>(
-      (event, emit)async {
+      (event, emit) async {
+        log('started');
+        _hiveService.deletePanData(event.id);
         final List<PanDatas> list = await _hiveService.getPanData();
+        emit(UserSuccessState(list));
       },
     );
   }
@@ -37,6 +40,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       // Getting PanData list
       final List<PanDatas> list = await _hiveService.getPanData();
       emit(UserSuccessState(list));
-    } catch (e) {}
+    } catch (e) {
+      log('error is there in this bloc $e');
+    }
   }
 }

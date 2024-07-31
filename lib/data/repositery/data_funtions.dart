@@ -9,9 +9,9 @@ class HiveService {
     Box<PanDatas> panDataBox = await Hive.openBox<PanDatas>('panDataBox');
     try {
       await panDataBox.put(panData.dataId, panData);
-      print('Data added successfully!');
+      log('Data added successfully!');
     } catch (e) {
-      print('Error adding data: $e');
+      log('Error adding data: $e');
     }
   }
 
@@ -20,14 +20,21 @@ class HiveService {
     try {
       // Get all the values from the box and convert them to a list
       List<PanDatas> panDataList = panDataBox.values.toList();
-
-      // Optional: Print the list to verify the data
-      print(panDataList);
-
       return panDataList;
     } catch (e) {
-      print('Error retrieving data: $e');
+      log('Error retrieving data: $e');
       return [];
+    }
+  }
+
+  Future<void> deletePanData(String dataId) async {
+    log("deleting data with ID: $dataId");
+    Box<PanDatas> panDataBox = await Hive.openBox<PanDatas>('panDataBox');
+    try {
+      await panDataBox.delete(dataId);
+      log('Data deleted successfully!');
+    } catch (e) {
+      log('Error deleting data: $e');
     }
   }
 }

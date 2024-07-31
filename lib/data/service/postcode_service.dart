@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 class PostcodeService {
- getPostcodeDetails(int postcode) async {
+  getPostcodeDetails(int postcode) async {
     final url = Uri.parse('https://lab.pixel6.co/api/get-postcode-details.php');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'postcode': postcode});
@@ -27,8 +28,7 @@ class PostcodeService {
         throw Exception('Server error: ${response.statusCode}');
       }
     } catch (error) {
-      // Handle errors (e.g., network issues) here
-      print('Error: $error');
+      log('Error: $error');
       // return null;
     }
   }

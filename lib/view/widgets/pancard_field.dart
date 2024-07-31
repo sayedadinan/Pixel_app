@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pixel_app/bloc/user_bloc/validation_bloc.dart';
+import 'package:pixel_app/bloc/validation_bloc/validation_bloc.dart';
 import 'package:pixel_app/view/utils/color_theme/colors.dart';
 import 'package:pixel_app/view/utils/constants/app_textfield.dart';
 

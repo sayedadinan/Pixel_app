@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 class PostcodeService {
+  //this is working for fetching the datas from the api post api 
   getPostcodeDetails(int postcode) async {
     final url = Uri.parse('https://lab.pixel6.co/api/get-postcode-details.php');
     final headers = {'Content-Type': 'application/json'};

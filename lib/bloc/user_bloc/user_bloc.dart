@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:pixel_app/data/model/address_model.dart';
+import 'package:pixel_app/view/screens/user_adding_screen.dart';
+import 'package:pixel_app/view/utils/constants/navigations.dart';
 
 import '../../data/model/data_model.dart';
 import '../../data/repositery/data_funtions.dart';
@@ -14,6 +16,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final HiveService _hiveService;
   UserBloc(this._hiveService) : super(UserInitial()) {
     on<UserAddEvent>(_add);
+    on<UserUpdateEvent>(userupdate);
 
     on<UserDeleteEvent>(
       (event, emit) async {
@@ -43,5 +46,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } catch (e) {
       log('error is there in this bloc $e');
     }
+  }
+
+  userupdate(UserUpdateEvent event, Emitter<UserState> emit) async {
+    PageNavigations().push(PanCardAddingScreen(
+      email: event.email,
+      isEditMode: true,
+      name: event.name,
+      panCard: event.pan,
+      phone: event.phone,
+    ));
   }
 }

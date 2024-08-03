@@ -20,20 +20,15 @@ final class UserAddEvent extends UserEvent {
 }
 
 final class UserUpdateEvent extends UserEvent {
-  final PanDatas model;
   final String name;
   final String email;
   final String phone;
   final String pan;
-  final AddressTable addressTable;
-
   UserUpdateEvent({
-    required this.model,
     required this.name,
     required this.email,
     required this.phone,
     required this.pan,
-    required this.addressTable,
   });
 }
 

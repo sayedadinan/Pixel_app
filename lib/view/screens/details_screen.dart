@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_app/bloc/user_bloc/user_bloc.dart';
 import 'package:pixel_app/view/utils/color_theme/colors.dart';
 import 'package:pixel_app/view/utils/constants/app_text.dart';
-import 'package:pixel_app/view/utils/constants/mediaquery.dart';
 import 'package:pixel_app/view/utils/constants/navigations.dart';
 import 'package:pixel_app/view/utils/constants/padding_.dart';
 import 'package:pixel_app/view/utils/constants/paths.dart';
 import 'package:pixel_app/view/utils/constants/sizedbox.dart';
+import 'package:pixel_app/view/widgets/main_tag_widget.dart';
 
 class DetailsScreen extends StatelessWidget {
   final String name;
@@ -56,31 +56,8 @@ class DetailsScreen extends StatelessWidget {
                     color: AppColors.blackColor),
               ),
               const CustomSizedBoxHeight(height: 0.03),
-              Row(
-                children: [
-                  const CustomText(
-                      text: 'User Details',
-                      fontFamily: CustomFonts.inknut,
-                      size: 0.06,
-                      color: AppColors.blackColor),
-                  IconButton(
-                      onPressed: () {
-                        context.read<UserBloc>().add(UserDeleteEvent(id: id));
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        size: mediaquerywidth(0.14, context),
-                      )),
-                  IconButton(
-                      onPressed: () {
-                        context.read<UserBloc>().add(UserDeleteEvent(id: id));
-                      },
-                      icon: Icon(
-                        Icons.edit,
-                        size: mediaquerywidth(0.14, context),
-                      )),
-                ],
-              ),
+              MainTagWidget(
+                  id: id, name: name, panNumber: panNumber, phone: phone),
               const Divider(),
               const CustomSizedBoxHeight(height: 0.02),
               Row(

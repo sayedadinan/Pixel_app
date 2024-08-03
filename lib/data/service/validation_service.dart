@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 class ValidationService {
+  //validating the pancard numbers
   Future<bool> panValidation(String panNumber) async {
     log('worked');
     final url = Uri.parse('https://lab.pixel6.co/api/verify-pan.php');
